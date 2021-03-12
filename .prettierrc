@@ -1,0 +1,9 @@
+{
+  "printWidth": 130,
+  "trailingComma": "all",
+  "semi": false,
+  "singleQuote": true,
+  "arrowParens": "avoid",
+  "endOfLine": "lf"
+  }
+  

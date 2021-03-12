@@ -1,12 +1,8 @@
 <template>
   <div class="wrapper">
     <div class="columns is-vcentered is-multiline">
-      <User
-        v-for="user in users"
-        :key="user.email"
-        :user="user"
-      ></User>
-      </div>
+      <User v-for="user in users" :key="user.email" :user="user"></User>
+    </div>
   </div>
 </template>
 
@@ -37,7 +33,7 @@ export default {
   computed: {
     isEmpty: function() {
       return this.users.length === 0
-    }
+    },
   },
   methods: {
     getUsers: async function(params) {
@@ -47,7 +43,7 @@ export default {
       } catch (error) {
         this.isError = true
       }
-    }
+    },
   },
   created: function() {
     this.getUsers(this.requestParams)
@@ -56,7 +52,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-  .wrapper {
-    padding: 100px;
-  }
+.wrapper {
+  padding: 100px;
+}
 </style>
