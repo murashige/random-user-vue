@@ -1,18 +1,20 @@
 <template>
   <div class="wrapper">
+    <SelectGender @change-gender="changeGender($event)" class="select-gender" />
     <pulse-loader v-if="isLoading" class="loader-block"></pulse-loader>
 
-    <div v-else class="columns is-vcentered is-multiline">
-      <User v-for="user in users" :key="user.email" :user="user"></User>
+    <div v-else class="columns is-multiline">
+      <User v-for="user in users" :key="user.email" :user="user" />
     </div>
   </div>
 </template>
 
 <script>
-import PulseLoader from 'vue-spinner/src/PulseLoader.vue'
+import PulseLoader from 'vue-spinner/src/PulseLoader'
 
 import { fetchUsersRequest } from './api/fetchUsers'
-import User from './components/User.vue'
+import SelectGender from './components/SelectGender'
+import User from './components/User'
 
 const TOTAL_PAGES = 30
 
@@ -20,6 +22,7 @@ export default {
   name: 'App',
   components: {
     PulseLoader,
+    SelectGender,
     User,
   },
   data: function() {
@@ -31,7 +34,7 @@ export default {
         page: 1,
         results: 20,
         inc: 'gender,name,location,email,phone,picture',
-        gender: '',
+        gender: 'both',
       },
     }
   },
@@ -52,6 +55,11 @@ export default {
         this.isError = true
       }
     },
+    changeGender(gender) {
+      this.$set(this.requestParams, 'gender', gender)
+      this.$set(this.requestParams, 'page', 1)
+      this.getUsers(this.requestParams)
+    },
   },
   created: function() {
     this.getUsers(this.requestParams)
@@ -61,7 +69,10 @@ export default {
 
 <style lang="scss" scoped>
 .wrapper {
-  padding: 100px;
+  padding: 50px 100px;
+}
+.select-gender {
+  margin-bottom: 30px;
 }
 .loader-block {
   position: absolute;
