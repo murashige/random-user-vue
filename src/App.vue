@@ -1,28 +1,62 @@
 <template>
-  <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+  <div class="wrapper">
+    <div class="columns is-vcentered is-multiline">
+      <User
+        v-for="user in users"
+        :key="user.email"
+        :user="user"
+      ></User>
+      </div>
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import { fetchUsersRequest } from './api/fetchUsers'
+import User from './components/User.vue'
+
+const TOTAL_PAGES = 30
 
 export default {
   name: 'App',
   components: {
-    HelloWorld
-  }
+    User,
+  },
+  data: function() {
+    return {
+      isError: false,
+      isLoading: true,
+      users: [],
+      requestParams: {
+        page: 1,
+        results: 20,
+        inc: 'gender,name,location,email,phone,picture',
+        gender: '',
+      },
+    }
+  },
+  computed: {
+    isEmpty: function() {
+      return this.users.length === 0
+    }
+  },
+  methods: {
+    getUsers: async function(params) {
+      try {
+        const response = await fetchUsersRequest(params)
+        this.users = response.data.results
+      } catch (error) {
+        this.isError = true
+      }
+    }
+  },
+  created: function() {
+    this.getUsers(this.requestParams)
+  },
 }
 </script>
 
-<style lang="scss">
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
+<style lang="scss" scoped>
+  .wrapper {
+    padding: 100px;
+  }
 </style>
