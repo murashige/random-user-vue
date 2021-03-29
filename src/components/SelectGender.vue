@@ -15,7 +15,7 @@
 
 <script>
 export default {
-  name: 'gender',
+  name: 'SelectGender',
   props: {
     gender: {
       type: String,
