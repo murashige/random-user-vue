@@ -3,7 +3,7 @@
     <label class="label">性別で絞り込む</label>
     <div class="control">
       <div class="select">
-        <select @change="changeGender()" v-model="gender">
+        <select @change="changeGender($event)" :value="gender">
           <option value="both">すべて</option>
           <option value="male">男性</option>
           <option value="female">女性</option>
@@ -16,14 +16,15 @@
 <script>
 export default {
   name: 'SelectGender',
-  data: function() {
-    return {
-      gender: 'both',
-    }
+  props: {
+    gender: {
+      type: String,
+      require: true,
+    },
   },
   methods: {
-    changeGender: function() {
-      this.$emit('change-gender', this.gender)
+    changeGender: function(event) {
+      this.$emit('change-gender', event.target.value)
     },
   },
 }

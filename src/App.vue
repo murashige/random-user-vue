@@ -1,6 +1,6 @@
 <template>
   <div class="wrapper">
-    <SelectGender @change-gender="changeGender($event)" class="select-gender" />
+    <SelectGender :gender="requestParams.gender" @change-gender="changeGender($event)" class="select-gender" />
 
     <div class="users-block">
       <pulse-loader v-if="isLoading" class="loader-block"></pulse-loader>
